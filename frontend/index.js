@@ -1,5 +1,3 @@
-import placehold from './placehold.vue';
-
 export default {
   ref: 'binder',
   name: 'Safety Binder',
@@ -8,8 +6,8 @@ export default {
     binder: {
       name: 'Safety Binder',
       entry: true,
-      component: placehold,
-      path: '/group/{groupId}/binder',
+      component: () => import('./binder.vue'),
+      path: '/group/{groupId}/binder/:bindId?',
       icon: 'fal fa-book',
       priority: 109,
       visiblePerms: [
@@ -17,5 +15,14 @@ export default {
       ],
     },
   },
-  store: { binders: {} },
+  store: {
+    binders: {
+      instanceDefaults: {
+        name: '',
+        type: '',
+        desc: '',
+        items: [],
+      },
+    },
+  },
 };
