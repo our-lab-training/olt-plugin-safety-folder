@@ -7,7 +7,7 @@ const DefaultSchema = require('../../../../types/default.schema');
 const DescType = require('../../../../types/desc.type');
 const NameType = require('../../../../types/name.type');
 const ObjectIdType = require('../../../../types/objectId.type');
-const TypedObjectIdType = require('../../../../types/typedObjectId.type');
+// const TypedObjectIdType = require('../../../../types/typedObjectId.type');
 
 module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
@@ -29,7 +29,9 @@ module.exports = function (app) {
         }
       },
     },
-    itemId: TypedObjectIdType('type', app, { required: false }),
+    itemId: {
+      type: Schema.Types.ObjectId,
+    },
     category: {
       type: String,
       required: true,
@@ -47,7 +49,13 @@ module.exports = function (app) {
     desc: DescType(),
     priority: {
       type: Number,
-      required: [true, 'A priority is required to order the trainings.'],
+      required: [true, 'A priority is required to order the binder.'],
+      default: 50,
+    },
+    type: {
+      type: String,
+      required: [true, 'Type is required, please select one.'],
+      enum: ['workspace', 'task', 'tool'],
     },
     items: {
       type: [itemSchema],
@@ -57,6 +65,7 @@ module.exports = function (app) {
     public: {
       type: Boolean,
       required: true,
+      default: false,
     },
     groupId: ObjectIdType('groups', app),
   });
