@@ -3,7 +3,7 @@
     <v-toolbar dense class="binder-list">
       <v-flex shrink>
         <v-select
-          :items="types"
+          :items="bindTypes"
           v-model="type"
         />
       </v-flex>
@@ -35,7 +35,7 @@
         <v-list-tile-content>
           <v-list-tile-title v-text="bind.name" />
           <v-list-tile-sub-title>
-            ({{types.find(t => t.value === bind.type).text}}) {{bind.desc}}
+            ({{bindTypes.find(t => t.value === bind.type).text}}) {{bind.desc}}
           </v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
@@ -55,16 +55,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import types from '../../types';
 
 export default {
   data() {
     return {
       search: '',
-      types: [
+      bindTypes: [
         { text: 'All', value: '' },
-        { text: 'Workspace', value: 'workspace' },
-        { text: 'Task/Process', value: 'task' },
-        { text: 'Tool/Equipment', value: 'tool' },
+        ...types.binds,
       ],
       type: '',
     };

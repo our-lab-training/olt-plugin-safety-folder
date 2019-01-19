@@ -19,7 +19,7 @@
           />
         </v-flex><v-flex xs12 md6>
           <v-select
-            :items="types"
+            :items="types.binds"
             v-model="binder.type"
             label="Type"
             required
@@ -139,6 +139,7 @@ import groupBy from 'lodash/groupBy';
 import set from 'lodash/set';
 import uploadChooseInput from '../../../content/frontend/upload-choose-input.vue';
 import veToolbar from './view-edit-toolbar.vue';
+import types from '../../types';
 
 export default {
   components: {
@@ -148,40 +149,7 @@ export default {
   data() {
     return {
       binder: { items: [] },
-      types: [
-        {
-          text: 'Workspace',
-          value: 'workspace',
-          cats: [
-            { text: 'Risk Assessment', value: 'risk-ass', required: true },
-            { text: 'Local Health and Safety Manual', value: 'manual', required: true },
-            { text: 'Quiz', value: 'quiz' },
-            { text: 'Induction', value: 'induct' },
-            { text: 'Other', value: 'other' },
-          ],
-        },
-        {
-          text: 'Task/Process',
-          value: 'task',
-          cats: [
-            { text: 'Risk Assessment', value: 'risk-ass' },
-            { text: 'Method Statement', value: 'meth-state' },
-            { text: 'Other', value: 'other' },
-          ],
-        },
-        {
-          text: 'Tool/Equipment',
-          value: 'tool',
-          cats: [
-            { text: 'Risk Assessment', value: 'risk-ass', required: true },
-            { text: 'Standard Operating Procedure', value: 'sop', required: true },
-            { text: 'Operation Manual', value: 'manual', required: true },
-            { text: 'Quiz', value: 'quiz' },
-            { text: 'Induction', value: 'induct' },
-            { text: 'Other', value: 'other' },
-          ],
-        },
-      ],
+      types,
       errs: { items: [] },
       errMsg: '',
       itemDialog: false,
@@ -199,7 +167,7 @@ export default {
     id() { return this.$route.params.bindId; },
     writePerm() { return this.hasPerm(`${this.currentGroup._id}.binder.write`); },
     loading() { return this.isCreatePending || this.isPatchPending; },
-    type() { return this.types.find(t => t.value === this.binder.type); },
+    type() { return this.types.binds.find(t => t.value === this.binder.type); },
     items() {
       const items = groupBy(cloneDeep(this.binder.items), 'category');
       Object.values(items).forEach(catItems => catItems.forEach((item) => {
