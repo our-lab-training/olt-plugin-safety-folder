@@ -19,7 +19,7 @@
           />
         </v-flex><v-flex xs12 md6>
           <v-select
-            :items="types"
+            :items="types.binds"
             v-model="binder.type"
             label="Type"
             required
@@ -54,7 +54,7 @@
           >
             <v-list-tile slot="activator">
               <v-list-tile-content>
-                <v-list-tile-title>
+                <v-list-tile-title class="header">
                   {{ (type.cats.find(c => c.value === cat) || {}).text }}
                 </v-list-tile-title>
               </v-list-tile-content>
@@ -63,7 +63,7 @@
             <v-list-tile
               v-for="(item, i) in items[cat]"
               :key="i"
-              :to="`../${item.type}/${item.itemId}`"
+              @click.stop=""
             >
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -71,7 +71,26 @@
                 </v-list-tile-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-icon>fal fa-trash</v-icon>
+                <v-tooltip top>
+                  <v-btn flat icon slot="activator" :to="`../${item.type}/${item.itemId}`">
+                    <v-icon small>fal fa-external-link</v-icon>
+                  </v-btn>
+                  <span>View Document</span>
+                </v-tooltip>
+              </v-list-tile-action>
+              <v-list-tile-action>
+                <v-menu offset-y>
+                  <v-btn flat icon slot="activator" @click.prevent="">
+                    <v-icon small>fal fa-times</v-icon>
+                  </v-btn>
+                  <v-list>
+                    <v-list-tile @click="binder.items.splice(i, 1)">
+                      <v-list-tile-title class="error--text">
+                        <v-icon class="error--text" size="20px" left>fal fa-trash</v-icon> Remove
+                      </v-list-tile-title>
+                    </v-list-tile>
+                  </v-list>
+                </v-menu>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -139,6 +158,7 @@ import groupBy from 'lodash/groupBy';
 import set from 'lodash/set';
 import uploadChooseInput from '../../../content/frontend/upload-choose-input.vue';
 import veToolbar from './view-edit-toolbar.vue';
+import types from '../../types';
 
 export default {
   components: {
@@ -148,40 +168,7 @@ export default {
   data() {
     return {
       binder: { items: [] },
-      types: [
-        {
-          text: 'Workspace',
-          value: 'workspace',
-          cats: [
-            { text: 'Risk Assessment', value: 'risk-ass', required: true },
-            { text: 'Local Health and Safety Manual', value: 'manual', required: true },
-            { text: 'Quiz', value: 'quiz' },
-            { text: 'Induction', value: 'induct' },
-            { text: 'Other', value: 'other' },
-          ],
-        },
-        {
-          text: 'Task/Process',
-          value: 'task',
-          cats: [
-            { text: 'Risk Assessment', value: 'risk-ass' },
-            { text: 'Method Statement', value: 'meth-state' },
-            { text: 'Other', value: 'other' },
-          ],
-        },
-        {
-          text: 'Tool/Equipment',
-          value: 'tool',
-          cats: [
-            { text: 'Risk Assessment', value: 'risk-ass', required: true },
-            { text: 'Standard Operating Procedure', value: 'sop', required: true },
-            { text: 'Operation Manual', value: 'manual', required: true },
-            { text: 'Quiz', value: 'quiz' },
-            { text: 'Induction', value: 'induct' },
-            { text: 'Other', value: 'other' },
-          ],
-        },
-      ],
+      types,
       errs: { items: [] },
       errMsg: '',
       itemDialog: false,
@@ -199,7 +186,7 @@ export default {
     id() { return this.$route.params.bindId; },
     writePerm() { return this.hasPerm(`${this.currentGroup._id}.binder.write`); },
     loading() { return this.isCreatePending || this.isPatchPending; },
-    type() { return this.types.find(t => t.value === this.binder.type); },
+    type() { return this.types.binds.find(t => t.value === this.binder.type); },
     items() {
       const items = groupBy(cloneDeep(this.binder.items), 'category');
       Object.values(items).forEach(catItems => catItems.forEach((item) => {

@@ -15,7 +15,7 @@
     </v-toolbar-title>
     <div v-if="id !== 'new'" style="margin-left:0.5em;">
       <small>
-        ({{(types.find(t => t.value === binder.type) || {}).text}})
+        ({{(types.binds.find(t => t.value === binder.type) || {}).text}})
       </small>
     </div>
     <v-spacer />
@@ -70,6 +70,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import types from '../../types';
 
 export default {
   props: {
@@ -90,11 +91,7 @@ export default {
     return {
       del: false,
       delErr: '',
-      types: [
-        { text: 'Workspace', value: 'workspace' },
-        { text: 'Task/Process', value: 'task' },
-        { text: 'Tool/Equipment', value: 'tool' },
-      ],
+      types,
     };
   },
   computed: {
