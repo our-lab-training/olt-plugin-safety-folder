@@ -54,7 +54,7 @@
           >
             <v-list-tile slot="activator">
               <v-list-tile-content>
-                <v-list-tile-title>
+                <v-list-tile-title class="header">
                   {{ (type.cats.find(c => c.value === cat) || {}).text }}
                 </v-list-tile-title>
               </v-list-tile-content>
@@ -63,7 +63,7 @@
             <v-list-tile
               v-for="(item, i) in items[cat]"
               :key="i"
-              :to="`../${item.type}/${item.itemId}`"
+              @click.stop=""
             >
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -71,7 +71,26 @@
                 </v-list-tile-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-icon>fal fa-trash</v-icon>
+                <v-tooltip top>
+                  <v-btn flat icon slot="activator" :to="`../${item.type}/${item.itemId}`">
+                    <v-icon small>fal fa-external-link</v-icon>
+                  </v-btn>
+                  <span>View Document</span>
+                </v-tooltip>
+              </v-list-tile-action>
+              <v-list-tile-action>
+                <v-menu offset-y>
+                  <v-btn flat icon slot="activator" @click.prevent="">
+                    <v-icon small>fal fa-times</v-icon>
+                  </v-btn>
+                  <v-list>
+                    <v-list-tile @click="binder.items.splice(i, 1)">
+                      <v-list-tile-title class="error--text">
+                        <v-icon class="error--text" size="20px" left>fal fa-trash</v-icon> Remove
+                      </v-list-tile-title>
+                    </v-list-tile>
+                  </v-list>
+                </v-menu>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
