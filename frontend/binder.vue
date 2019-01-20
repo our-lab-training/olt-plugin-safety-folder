@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import editBind from './components/edit-bind.vue';
 import listBind from './components/list-bind.vue';
 import viewBind from './components/view-bind.vue';
@@ -37,11 +37,7 @@ export default {
     edit() { return this.writePerm && (typeof this.$route.query.edit !== 'undefined' || this.id === 'new'); },
   },
   methods: {
-    ...mapActions('binders', ['find']),
     ...mapMutations('binders', ['setCurrent']),
-  },
-  async mounted() {
-    await this.find({ query: { groupId: this.currentGroup._id } });
   },
   watch: {
     id(v) { this.setCurrent(v); },
