@@ -1,3 +1,5 @@
+import perms from '../perms';
+
 export default {
   ref: 'binder',
   name: 'Safety Binder',
@@ -25,4 +27,5 @@ export default {
       },
     },
   },
+  perms,
 };
