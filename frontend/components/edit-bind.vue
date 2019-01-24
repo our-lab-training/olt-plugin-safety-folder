@@ -184,7 +184,7 @@ export default {
     ...mapState('binders', ['isCreatePending', 'isPatchPending']),
     ...mapState('content', ['isOperationPending']),
     id() { return this.$route.params.bindId; },
-    writePerm() { return this.hasPerm(`${this.currentGroup._id}.binder.write`); },
+    writePerm() { return this.hasPerm(`${this.currentGroup._id}.binders.write`); },
     loading() { return this.isCreatePending || this.isPatchPending; },
     type() { return this.types.binds.find(t => t.value === this.binder.type); },
     items() {
@@ -254,6 +254,7 @@ export default {
     },
   },
   mounted() {
+    if (!this.writePerm) this.$router.push('/');
     this.setBind();
   },
   watch: {

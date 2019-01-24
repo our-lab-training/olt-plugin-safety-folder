@@ -13,7 +13,7 @@ export default {
       icon: 'fal fa-book',
       priority: 109,
       visiblePerms: [
-        '{groupId}.binder.read',
+        '{groupId}.binders.read',
       ],
     },
   },

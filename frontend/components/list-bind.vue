@@ -73,7 +73,7 @@ export default {
     ...mapGetters('groups', { currentGroup: 'current' }),
     ...mapGetters('binders', { findBind: 'find' }),
     id() { return this.$route.params.bindId; },
-    writePerm() { return this.hasPerm(`${this.currentGroup._id}.binder.write`); },
+    writePerm() { return this.hasPerm(`${this.currentGroup._id}.binders.write`); },
     binds() {
       const query = { groupId: this.currentGroup._id };
       if (this.type) query.type = this.type;
