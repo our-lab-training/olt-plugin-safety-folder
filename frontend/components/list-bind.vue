@@ -80,8 +80,8 @@ export default {
       if (this.search) {
         const reg = RegExp(`(${this.search.replace(/\s/g, ')|(')})`, 'i');
         query.$or = [
-          { name: reg.test },
-          { desc: reg.test },
+          { name: v => reg.test(v) },
+          { desc: v => reg.test(v) },
         ];
       }
       return this.findBind({ query }).data;
