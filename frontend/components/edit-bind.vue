@@ -133,6 +133,21 @@
             :save.sync="uploadSave"
             :valid.sync="uploadValid"
           />
+          <v-select
+            v-if="newItem.category === 'induct'"
+            :items="
+              findInduct({
+                query: {
+                  $or: [{ groupId: currentGroup._id }, { public: true }],
+                  $sort: { name: 1 },
+                },
+              }).data
+            "
+            item-text="name"
+            item-value="_id"
+            v-model="newItem.itemId"
+            label="Induction"
+          ></v-select>
         </v-container>
         <v-card-actions>
           <v-spacer/>
@@ -181,6 +196,7 @@ export default {
     ...mapGetters('users', { hasPerm: 'hasPerm', currentUser: 'current' }),
     ...mapGetters('groups', { currentGroup: 'current' }),
     ...mapGetters('binders', { getBind: 'get' }),
+    ...mapGetters('inductions', { getInduct: 'get', findInduct: 'find' }),
     ...mapState('binders', ['isCreatePending', 'isPatchPending']),
     ...mapState('content', ['isOperationPending']),
     id() { return this.$route.params.bindId; },
@@ -198,7 +214,7 @@ export default {
       if (!this.newItem.category) return false;
       switch (this.newItem.category) {
         case 'induct':
-          return false;
+          return !!this.newItem.itemId;
         case 'quiz':
           return false;
         default:
@@ -240,7 +256,7 @@ export default {
       switch (this.newItem.category) {
         case 'induct':
           this.newItem.type = 'inductions';
-          return;
+          break;
         case 'quiz':
           this.newItem.type = 'quizzes';
           return;
