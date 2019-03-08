@@ -81,12 +81,14 @@
               <v-list-tile-action>
                 <v-menu offset-y>
                   <v-btn flat icon slot="activator" @click.prevent="">
-                    <v-icon small>fal fa-times</v-icon>
+                    <v-icon small>fal fa-trash</v-icon>
                   </v-btn>
                   <v-list>
                     <v-list-tile @click="binder.items.splice(i, 1)">
                       <v-list-tile-title class="error--text">
-                        <v-icon class="error--text" size="20px" left>fal fa-trash</v-icon> Remove
+                        <v-icon class="error--text" size="20px" left>
+                          fas fa-exclamation-triangle
+                        </v-icon> Remove
                       </v-list-tile-title>
                     </v-list-tile>
                   </v-list>
