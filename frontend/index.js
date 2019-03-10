@@ -9,7 +9,7 @@ export default {
       name: 'Safety Binder',
       entry: true,
       component: () => import('./binder.vue'),
-      path: '/group/{groupId}/binder/:bindId?',
+      path: '/org/{groupId}/binder/:bindId?',
       icon: 'fal fa-book',
       priority: 109,
       visiblePerms: [
