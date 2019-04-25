@@ -67,7 +67,16 @@
             >
               <v-list-tile-content>
                 <v-list-tile-title>
-                  {{item.data.name}}
+                  <v-icon small left v-if="item.type === 'content'">
+                    fal fa-{{item.data.type === 'text/uri-list' ? 'link' : 'file'}}
+                  </v-icon>
+                  {{
+                    item.type !== 'content'
+                    ? item.data.name
+                    : supportedFiles[item.data.type].hideExt
+                      ? item.data.filename.replace(/\.[\w-]+$/, '')
+                      : item.data.filename
+                  }}
                 </v-list-tile-title>
               </v-list-tile-content>
               <v-list-tile-action>
@@ -176,6 +185,7 @@ import set from 'lodash/set';
 import uploadChooseInput from '../../../content/frontend/upload-choose-input.vue';
 import veToolbar from './view-edit-toolbar.vue';
 import types from '../../types';
+import supportedFiles from '../../../content/supportedFiles';
 
 export default {
   components: {
@@ -192,6 +202,7 @@ export default {
       newItem: {},
       uploadSave: null,
       uploadValid: false,
+      supportedFiles,
     };
   },
   computed: {
