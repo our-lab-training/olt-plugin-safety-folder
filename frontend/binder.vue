@@ -2,6 +2,29 @@
   <v-container grid-list-md>
     <v-layout row wrap justify-center>
       <v-flex xs12 :md4="id" :md6="!id" v-if="!id || this.$vuetify.breakpoint.mdAndUp">
+        <v-card>
+          <v-toolbar dense>
+            <v-toolbar-title>
+              Safety Binder
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <p>
+              The safety binder is a collection of "document sets" for a
+              task, tool, or workspace, where all the relevant safety documentation
+              is kept in one digital place.
+            </p>
+            <p>
+              Bellow is a list of these sets, click on one to see the documents.
+              You can open a document by clicking on it and then click back to return.
+            </p>
+            <p>
+              Documents from the safety binder can be used to make up the associated
+              <router-link to="../training">Training</router-link>.
+            </p>
+          </v-card-text>
+        </v-card>
+        &nbsp;
         <list-bind />
       </v-flex>
       <v-flex xs12 md8 v-if="id">
