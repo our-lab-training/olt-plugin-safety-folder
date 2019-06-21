@@ -139,7 +139,7 @@
               && newItem.category !== 'induct'
               && newItem.category !== 'quiz'
             "
-            :path="`.binders/${id}/`"
+            :path="`Binders/${id}/`"
             v-model="newItem.itemId"
             :save.sync="uploadSave"
             :valid.sync="uploadValid"
