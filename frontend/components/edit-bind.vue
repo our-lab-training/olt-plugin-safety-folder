@@ -61,7 +61,7 @@
             </v-list-tile>
 
             <v-list-tile
-              v-for="(item, i) in items[cat]"
+              v-for="(item, i) in items[cat].filter(item => item.data.enabled)"
               :key="i"
               @click.stop=""
             >

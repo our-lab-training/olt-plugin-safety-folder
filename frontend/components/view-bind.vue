@@ -26,9 +26,8 @@
                   </v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
-
               <v-list-tile
-                v-for="(item, i) in items[cat]"
+                v-for="(item, i) in items[cat].filter(item => !!item.data.enabled)"
                 :key="i"
                 :to="`../${item.type}/${item.itemId}`"
               >
